@@ -13,9 +13,20 @@ namespace DedApi.Services
         {
             restService = service;
         }
-        public Task<List<EntryModel>> GetEntrieModels()
+
+        public Task<List<Cat>> GetCats()
         {
-            return restService.GetDataAsync();
+            return restService.GetCatsAsync();
+        }
+
+        public Task DeleteCatAsync(Cat cat)
+        {
+            return restService.DeleteCatAsync(cat);
+        }
+
+        public Task SaveCatAsync(Cat cat, bool isNewItem = false)
+        {
+            return restService.SaveCatAsync(cat, isNewItem);
         }
     }
 }

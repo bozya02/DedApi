@@ -8,6 +8,8 @@ namespace DedApi.Services
 {
     public interface IRestService
     {
-        Task<List<EntryModel>> GetDataAsync();
+        Task<List<Cat>> GetCatsAsync();
+        Task SaveCatAsync(Cat cat, bool isNewItem);
+        Task DeleteCatAsync(Cat cat);
     }
 }
