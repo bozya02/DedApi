@@ -13,7 +13,7 @@ namespace DedApi
         {
             InitializeComponent();
             RequestManager = new RequestManager(new RestService());
-            MainPage = new NavigationPage(new CatsListPage());
+            MainPage = new NavigationPage(new WeatherInfoPage());
         }
 
         protected override void OnStart()

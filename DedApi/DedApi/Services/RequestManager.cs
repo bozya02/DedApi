@@ -14,19 +14,9 @@ namespace DedApi.Services
             restService = service;
         }
 
-        public Task<List<Cat>> GetCats()
+        public Task<WeatherModel> GetWeather(string cityName)
         {
-            return restService.GetCatsAsync();
-        }
-
-        public Task DeleteCatAsync(Cat cat)
-        {
-            return restService.DeleteCatAsync(cat);
-        }
-
-        public Task SaveCatAsync(Cat cat, bool isNewItem = false)
-        {
-            return restService.SaveCatAsync(cat, isNewItem);
+            return restService.GetWeather(cityName);
         }
     }
 }

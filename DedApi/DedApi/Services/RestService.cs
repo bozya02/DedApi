@@ -13,7 +13,7 @@ namespace DedApi.Services
     {
         HttpClient client;
         JsonSerializerOptions serializerOptions;
-        List<Cat> Cats { get; set; }
+        WeatherModel Weather { get; set; }
         public RestService()
         {
             var httpClientHandler = new HttpClientHandler();
@@ -29,78 +29,31 @@ namespace DedApi.Services
             };
         }
 
-        public async Task<List<Cat>> GetCatsAsync()
+        public async Task<WeatherModel> GetWeather(string cityName)
         {
-            Cats = new List<Cat>();
-
-            Uri uri = new Uri(string.Format(Constants.RestUrl, string.Empty));
-
+            Uri uri = new Uri(string.Format(Constants.RestUrl, cityName, ApiKeys.OpenWeatherMapToken));
             try
             {
-                HttpResponseMessage response = await client.GetAsync(uri);
-                if (response.IsSuccessStatusCode)
+                Debug.WriteLine("Start Requests");
+                HttpResponseMessage responseMessage = await client.GetAsync(uri);
+                Debug.WriteLine("End Request");
+
+                if (responseMessage.IsSuccessStatusCode)
                 {
-                    string content = await response.Content.ReadAsStringAsync();
-                    Cats = JsonSerializer.Deserialize<List<Cat>>(content, serializerOptions);
+                    string content = await responseMessage.Content.ReadAsStringAsync();
+                    Weather = JsonSerializer.Deserialize<WeatherModel>(content, serializerOptions);
                 }
-
-                Debug.WriteLine("Gooooooooooood");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-
-            return Cats;
-        }
-
-        public async Task SaveCatAsync(Cat cat, bool isNewItem)
-        {
-            Uri uri = new Uri(string.Format(Constants.RestUrl, string.Empty));
-
-            try
-            {
-                string json = JsonSerializer.Serialize(cat, serializerOptions);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = null;
-                if (isNewItem)
-                {
-                    response = await client.PostAsync(uri, content);
-                }
-
                 else
                 {
-                    response = await client.PutAsync(uri, content);
-                }
-
-                if (response.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("Success");
+                    Debug.WriteLine("Bad Requset");
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
-        }
 
-        public async Task DeleteCatAsync(Cat cat)
-        {
-            Uri uri = new Uri(string.Format(Constants.RestUrl, cat.Id));
-
-            try
-            {
-                HttpResponseMessage httpResponseMessage = await client.DeleteAsync(uri);
-                if (httpResponseMessage.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine("Success");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"{ex.Message}");
-            }
+            return Weather;
         }
     }
 }

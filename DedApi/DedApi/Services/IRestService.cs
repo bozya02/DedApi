@@ -8,8 +8,6 @@ namespace DedApi.Services
 {
     public interface IRestService
     {
-        Task<List<Cat>> GetCatsAsync();
-        Task SaveCatAsync(Cat cat, bool isNewItem);
-        Task DeleteCatAsync(Cat cat);
+        Task<Model.WeatherModel> GetWeather(string cityName);
     }
 }
