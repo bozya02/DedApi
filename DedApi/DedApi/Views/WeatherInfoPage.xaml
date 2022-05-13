@@ -23,7 +23,10 @@
 
             <StackLayout Orientation="Horizontal">
                 <Label Text="Wind deg:"/>
-                <Label Text="{Binding Wind.Deg}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding Wind.Deg}"/>
+                    <Label Rotation="{Binding Wind.Deg}" Text="↑"/>
+                </StackLayout>
             </StackLayout>
 
             <ListView ItemsSource="{Binding Weather}" HasUnevenRows="True" HeightRequest="100">
@@ -33,6 +36,7 @@
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="Weather:"/>
                                 <Label Text="{Binding Description}"/>
+                                <Image Source="{Binding Image}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
